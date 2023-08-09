@@ -9,6 +9,86 @@
 #include <limits.h>
 #include <locale.h>
 
+#define s21_NULL (void *)0
+typedef struct Node {
+    char value;
+    int index;
+    struct Node* next;
+    struct Node* prev;
+}Node;
+
+typedef long unsigned s21_size_t;
+
+s21_size_t s21_strlen(const char *str);
+void *s21_memchr(const void *str, int c, s21_size_t n);
+int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
+void *s21_memcpy(void *dest, const void *src, s21_size_t n);
+void *s21_memmove(void *dest, const void *src, s21_size_t n);
+void *s21_memset(void *str, int c, s21_size_t n);
+char *s21_strcat(char *dest, const char *src);
+char *s21_strncat(char *dest, const char *src, s21_size_t n);
+char *s21_strchr(const char *str, int c);
+int s21_strcmp(const char *str1, const char *str2);
+int s21_strncmp(const char *str1, const char *str2, s21_size_t n);
+char *s21_strcpy(char *dest, const char *src);
+char *s21_strncpy(char *dest, const char *src, s21_size_t n);
+s21_size_t s21_strcspn(const char *str1, const char *str2);
+char *s21_strerror(int errnum);
+char *s21_strpbrk(const char *str1, const char *str2);
+char *s21_strrchr(const char *str, int c);
+s21_size_t s21_strspn(const char *str1, const char *str2);
+char *s21_strstr(const char *haystack, const char *needle);
+char *s21_strtok(char *str, const char *delim);
+int s21_in(char c, const char *str);
+
+void *s21_to_lower(const char* str);
+void *s21_to_upper(const char* str);
+typedef struct element {
+    char value;
+    int type;
+    int precision;
+    int width;
+    int flag_space;
+    int flag_plus;
+    int flag_minus;
+    int length;
+    int precision_set;
+} elem;
+// list functions
+
+
+#define ALLOCATION_FAIL 1
+#define WRONG_INPUT 2
+// Functions for working with DLL
+void addFirst(char* tempstr, char* new_data);
+// other funcs
+int parse(const char* input, elem** arr);
+int isflag(char str);
+int istype(char str);
+int s21_sprintf(char *str, const char *string, ...);
+//  new
+
+void print_u(va_list ap, elem arr, char *str);
+void unsigned_prec(char* tempstr, elem arr);
+void unsigned_width(char* tempstr, elem arr);
+void print_char(va_list ap, elem arr, char *str);  //  char
+void print_proc(elem arr, char *str);  //  % symbol
+void print_string(va_list ap, elem arr, char *str);  //  string
+void print_float(va_list ap, elem arr, char *str);  //  float
+void float_width(elem arr, char* tempstr);
+void conv_float_to_str(long double num, elem arr, char* tempstr);
+// //
+void print_d(va_list ap, elem arr, char *str);
+void int_flags(char* tempstr, elem arr, int negative_num);
+void conv_unsigned_to_str(uint64_t i, char *string);
+void conv_int_to_str(int64_t i, char *string);
+// //
+void wchar_proc(elem arr, wchar_t wchar, char *zero_prob);  //  char
+void char_proc(elem arr, char ch, char *zero_prob);
+// //
+void str_proc(elem arr, char *str1, char *zero_prob);  //  string
+void wstr_proc(elem arr, wchar_t *wstr1, char *zero_prob);
+
 #if defined(__APPLE__) || defined(__MACH__)
 #define S21_ERROR_LIST 107
 
@@ -262,97 +342,5 @@ static const char *const s21_error_list[S21_ERROR_LIST] = {
     [133] = "Memory page has hardware error",
 };
 #endif
-
-#define s21_NULL (void *)0
-typedef struct Node {
-    char value;
-    int index;
-    struct Node* next;
-    struct Node* prev;
-}Node;
-
-typedef long unsigned s21_size_t;
-
-s21_size_t s21_strlen(const char *str);
-void *s21_memchr(const void *str, int c, s21_size_t n);
-int s21_memcmp(const void *str1, const void *str2, s21_size_t n);
-void *s21_memcpy(void *dest, const void *src, s21_size_t n);
-void *s21_memmove(void *dest, const void *src, s21_size_t n);
-void *s21_memset(void *str, int c, s21_size_t n);
-char *s21_strcat(char *dest, const char *src);
-char *s21_strncat(char *dest, const char *src, s21_size_t n);
-char *s21_strchr(const char *str, int c);
-int s21_strcmp(const char *str1, const char *str2);
-int s21_strncmp(const char *str1, const char *str2, s21_size_t n);
-char *s21_strcpy(char *dest, const char *src);
-char *s21_strncpy(char *dest, const char *src, s21_size_t n);
-s21_size_t s21_strcspn(const char *str1, const char *str2);
-char *s21_strerror(int errnum);
-char *s21_strpbrk(const char *str1, const char *str2);
-char *s21_strrchr(const char *str, int c);
-s21_size_t s21_strspn(const char *str1, const char *str2);
-char *s21_strstr(const char *haystack, const char *needle);
-char *s21_strtok(char *str, const char *delim);
-int s21_in(char c, const char *str);
-
-void *s21_to_lower(const char* str);
-void *s21_to_upper(const char* str);
-typedef struct element {
-    char value;
-    int type;
-    int precision;
-    int width;
-    int flag_space;
-    int flag_plus;
-    int flag_minus;
-    int length;
-    int precision_set;
-} elem;
-// list functions
-
-
-#define ALLOCATION_FAIL 1
-#define WRONG_INPUT 2
-// Functions for working with DLL
-void addFirst(char* tempstr, char* new_data);
-// other funcs
-
-// static void (*prs[7])(char* input, int *index, elem* elem, int* mode);
-
-int parse(const char* input, elem** arr);
-// static void prs_percent_symbol(char* input, int *index, elem* elem, int* mode);
-// static void prs_flag(char* input, int *index, elem* elem, int* mode);
-// static void prs_width(char* input, int *index, elem* elem, int* mode);
-// static void prs_precision(char* input, int *index, elem* elem, int* mode);
-// static void prs_length(char* input, int *index, elem* elem, int* mode);
-// static void prs_type(char* input, int *index, elem* elem, int* mode);
-// static void prs_non_percent(char* input, int *index, elem* elem, int* mode);
-int isflag(char str);
-int istype(char str);
-int s21_sprintf(char *str, const char *string, ...);
-//  new
-
-void print_u(va_list ap, elem arr, char *str);
-void unsigned_prec(char* tempstr, elem arr);
-void unsigned_width(char* tempstr, elem arr);
-void print_char(va_list ap, elem arr, char *str);  //  char
-void print_proc(elem arr, char *str);  //  % symbol
-void print_string(va_list ap, elem arr, char *str);  //  string
-void print_float(va_list ap, elem arr, char *str);  //  float
-void float_width(elem arr, char* tempstr);
-void conv_float_to_str(long double num, elem arr, char* tempstr);
-// //
-void print_d(va_list ap, elem arr, char *str);
-void int_flags(char* tempstr, elem arr, int negative_num);
-void conv_unsigned_to_str(uint64_t i, char *string);
-void conv_int_to_str(int64_t i, char *string);
-// //
-void wchar_proc(elem arr, wchar_t wchar, char *zero_prob);  //  char
-void char_proc(elem arr, char ch, char *zero_prob);
-// //
-void str_proc(elem arr, char *str1, char *zero_prob);  //  string
-void wstr_proc(elem arr, wchar_t *wstr1, char *zero_prob);
-
-
 
 #endif  // SRC_S21_STRING_H_

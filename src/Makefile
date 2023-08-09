@@ -10,7 +10,7 @@ TST_FILES = tests.c
 GCOV = gcovr 
 GCONV_FLAGS = -r . --html --html-details 
 
-all: gcov_report clean s21_string.a
+all: clean s21_string.a
 
 s21_string.o: s21_string.c 
 	$(CC) $(CFLAGS) $(PROFILE_FLAGS) s21_string.c
