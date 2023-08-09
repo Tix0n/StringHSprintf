@@ -3,7 +3,7 @@
 Собственная реализация библиотеки string.h и функции sprintf на языке программирования С и 2 специальные функции обработки строк.
 
 ### string.h
-| № | Функции |
+| № | Функция |
 | ------ | ------ |
 | 1 | void *memchr(const void *str, int c, size_t n) |
 | 2 | int memcmp(const void *str1, const void *str2, size_t n) |
