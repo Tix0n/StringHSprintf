@@ -10,13 +10,13 @@ TST_FILES = tests.c
 GCOV = gcovr 
 GCONV_FLAGS = -r . --html --html-details 
 
-all: coverage_report.html clean_ s21_string.a
+all: gcov_report clean s21_string.a
 
 s21_string.o: s21_string.c 
 	$(CC) $(CFLAGS) $(PROFILE_FLAGS) s21_string.c
 
 tests.o: tests.c
-	$(CC) $(CFLAGS) $(PROFILE_FLAGS) tests.c 
+	$(CC) $(CFLAGS) tests.c 
 
 check_s21_string_tests: s21_string.o tests.o
 	$(CC) s21_string.o tests.o $(TST_LIBS) $(COV_LIBS) -o check_s21_string_tests -lrt -lsubunit
@@ -28,7 +28,7 @@ check:
 	python3 cpplint.py *.c s21_string.h
 	cppcheck *.h s21_string.c
 
-coverage_report.html: test
+gcov_report: test
 	$(GCOV) $(GCONV_FLAGS) -o coverage_report.html
 	google-chrome coverage_report.html
 
